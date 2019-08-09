@@ -8,7 +8,13 @@
   <script src="//cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
   <br />
   <div class="container">
-    <form action=" {% url 'create' %}" method="POST">
+      <form action="{% url 'create' %}" method="post">
+          {% csrf_token %}       
+          {{ csrf_input }} 
+          {{ form.as_table }}        
+          <input class="btn btn-dark" type="submit" value="제출하기" />
+      </form>
+    <!--<form action=" {% url 'create' %}" method="POST">
       {% csrf_token %}
       {{ csrf_input }}
       <h5>제목</h5>
@@ -33,7 +39,7 @@
       <br />
       <br />
       <input class="btn btn-dark" type="submit" value="제출하기" />
-    </form>
+    </form>-->
   </div>
 </body>
 

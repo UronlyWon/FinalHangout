@@ -9,7 +9,13 @@ class Blog(models.Model):
         return self.title
 
     def summary(self):
-        return self.body[:100]
+        return self.body[:300]
 
     def __str__(self):
         return self.title 
+
+class Information(models.Model):
+    name=models.CharField(max_length=200)
+    content=models.TextField()
+    image = models.ImageField()
+    

@@ -37,4 +37,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('blog/update/<int:pk>',blog.views.update, name= 'update'),
     path('blog/delete/<int:pk>',blog.views.delete, name= 'delete'),
-]
+    path('festival/', blog.views.festival, name='festival'),
+    path('concert/', blog.views.concert, name='concert'),
+    path('festivalsearch', blog.views.festivalsearch, name='festivalsearch'),
+    ]

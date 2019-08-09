@@ -8,3 +8,4 @@ class NewBlog(forms.ModelForm):
         #fields = '__all__'
         fields = ['title', 'body']
         
+        

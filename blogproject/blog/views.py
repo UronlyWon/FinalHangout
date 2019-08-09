@@ -1,17 +1,40 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.core.paginator import Paginator 
-from .models import Blog
+from .models import Blog, Information
 from django.db.models import Q
 from .form import NewBlog
 from django.contrib import admin
+
 # Create your views here.
+def festivalsearch(request):
+        schWord2 = '%s' % request.POST['search_word_2']
+        inform_list = Information.objects.filter(Q(name__icontains=schWord2)).distinct()
+
+        context2={}
+        context2['search_term2']=schWord2
+        context2['object_list2']=inform_list
+
+        return render(request, 'search.html', context2)
+
+def search(request):
+        schWord= '%s' % request.POST['search_word']
+        post_list= Blog.objects.filter(Q(title__icontains=schWord) |
+                Q(body__icontains=schWord)).distinct()
+
+        context={}
+        context['search_term']=schWord
+        context['object_list']=post_list
+
+        return render(request, 'post_search.html', context)
+
+       
 def home(request):
     blogs = Blog.objects
     #블로그 모든 글들을 대상으로
     blog_list=Blog.objects.all()
     #블로그 객체 세 개를 한 페이지로 자르기
-    paginator = Paginator(blog_list,3)
+    paginator = Paginator(blog_list,6)
     #request된 페이지가 뭔지를 알아내고 ( request페이지를 변수에 담아냄 )
     page = request.GET.get('page')
     #request된 페이지를 얻어온 뒤 return 해 준다
@@ -53,17 +76,6 @@ def nono(request):
 def index(request):
     return render(request, 'index.html')
 
-def search(request):
-        schWord= '%s' % request.POST['search_word']
-        post_list= Blog.objects.filter(Q(title__icontains=schWord) |
-                Q(body__icontains=schWord)).distinct()
-
-        context={}
-        context['search_term']=schWord
-        context['object_list']=post_list
-
-        return render(request, 'post_search.html', context)
-
 def inform(request):
     return render(request, 'inform.html')
 
@@ -72,7 +84,6 @@ def delete(request,pk):
         blog = get_object_or_404(Blog, pk= pk)
         blog.delete()
         return redirect('home')
-
 
 
 def update(request,pk):
@@ -86,6 +97,12 @@ def update(request,pk):
                 form.save()
                 return redirect('home')
 
-        return render(request,'new.html', {'form':form})
+        return render(request,'update.html', {'form':form})
     #post.delete()
     #return redirect('remove_blog.html')
+
+def festival(request):
+    return render(request, 'festival.html')
+
+def concert(request):
+    return render(request, 'concert.html')
